@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng Ngày Nhà Giáo Việt Nam 20/11</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #dbeafe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Patrick Hand', cursive;
+            color: #1e3a8a;
+            overflow: hidden;
+        }
+
+        /* Khung hiển thị chuẩn tỷ lệ dọc 9:16 */
+        .card-wrapper {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            max-height: 850px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(30, 58, 138, 0.25);
+            background: #eff6ff;
+            overflow: hidden;
+        }
+
+        /* Lớp chứa hiệu ứng trái tim & ngôi sao bay lơ lửng */
+        .floating-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 20;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -30px;
+            color: #60a5fa;
+            opacity: 0;
+            user-select: none;
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(0.7);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.75;
+            }
+            50% {
+                transform: translateY(-45vh) translateX(15px) rotate(180deg) scale(1);
+            }
+            85% {
+                opacity: 0.65;
+            }
+            100% {
+                transform: translateY(-95vh) translateX(-15px) rotate(360deg) scale(0.85);
+                opacity: 0;
+            }
+        }
+
+        /* =========================================
+           HIỆU ỨNG CHỮ HIỆN LÊN TỪ TỪ KHI MỞ TRANG
+           ========================================= */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1), 
+                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .page.active .reveal-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Độ trễ nối tiếp nhau cho từng dòng chữ */
+        .delay-1 { transition-delay: 0.2s; }
+        .delay-2 { transition-delay: 0.55s; }
+        .delay-3 { transition-delay: 0.9s; }
+        .delay-4 { transition-delay: 1.25s; }
+        .delay-5 { transition-delay: 1.6s; }
+
+        /* Hiệu ứng chuyển trang mượt mà */
+        .page {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 35px 28px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.7s ease, visibility 0.7s;
+        }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+        }
+
+        /* =========================================
+           TRANG 1: CHÚC MỪNG + BẤM VÀO BÓ HOA
+           ========================================= */
+        #page-1 {
+            background-image: url('bg1.png');
+            align-items: center;
+            text-align: center;
+            padding-top: 12%;
+        }
+
+        .title-cursive {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            line-height: 1.15;
+            color: #172554;
+            rotate: -3deg;
+            margin-bottom: 10px;
+        }
+
+        .date-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 8px 0 25px 0;
+            rotate: -2deg;
+        }
+
+        .date-divider::before,
+        .date-divider::after {
+            content: "";
+            width: 45px;
+            height: 2px;
+            background-color: #1e3a8a;
+        }
+
+        .wish-1 {
+            align-self: flex-start;
+            text-align: left;
+            font-size: 1.35rem;
+            line-height: 1.5;
+            max-width: 78%;
+            margin-left: 10px;
+            color: #1e293b;
+        }
+
+        .bouquet-hotspot {
+            position: absolute;
+            bottom: 3%;
+            right: 4%;
+            width: 52%;
+            height: 40%;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 25;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bouquet-hint {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1e3a8a;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 1.05rem;
+            border: 1.5px solid #93c5fd;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
+            animation: floatHint 1.8s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes floatHint {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-6px) scale(1.05); }
+        }
+
+        /* =========================================
+           TRANG 2: LỜI CẢM ƠN + NÚT MỞ THƯ
+           ========================================= */
+        #page-2 {
+            background-image: url('bg2.png');
+            align-items: center;
+            text-align: center;
+            padding-top: 11%;
+            justify-content: space-between;
+        }
+
+        .title-slide-2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.7rem;
+            line-height: 1.15;
+            color: #1e3a8a;
+            rotate: -4deg;
+            margin-bottom: 18px;
+        }
+
+        .subtitle-slide-2 {
+            font-size: 1.25rem;
+            line-height: 1.45;
+            color: #1e293b;
+            max-width: 85%;
+            margin: 0 auto;
+        }
+
+        .btn-action {
+            background-color: #ffffff;
+            color: #1e3a8a;
+            border: 2px solid #93c5fd;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.35rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(147, 197, 253, 0.6);
+            margin-bottom: 12px;
+            z-index: 25;
+        }
+
+        .btn-action:hover {
+            scale: 1.05;
+            background-color: #eff6ff;
+        }
+
+        /* =========================================
+           TRANG 3: LÁ THƯ NHỎ
+           ========================================= */
+        #page-3 {
+            background-image: url('bg3.png');
+            padding: 0;
+        }
+
+        .note-paper-area {
+            position: absolute;
+            top: 10.5%;
+            left: 11%;
+            width: 78%;
+            height: 46%;
+            padding: 18px 16px;
+            rotate: -3.5deg;
+            overflow-y: auto;
+            font-size: 1.18rem;
+            line-height: 1.5;
+            color: #1e293b;
+            z-index: 25;
+        }
+
+        .note-paper-area::-webkit-scrollbar {
+            width: 4px;
+        }
+        .note-paper-area::-webkit-scrollbar-thumb {
+            background: #bfdbfe;
+            border-radius: 4px;
+        }
+
+        .btn-next-gallery {
+            position: absolute;
+            bottom: 22px;
+            right: 22px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 2px solid #93c5fd;
+            color: #1e3a8a;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.15rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            z-index: 25;
+        }
+
+        /* =========================================
+           TRANG 4: HÌNH ẢNH KỶ NIỆM
+           ========================================= */
+        #page-4 {
+            background-image: url('bg4.png');
+            padding-top: 23%;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            width: 100%;
+            margin-top: 10px;
+            z-index: 25;
+        }
+
+        .polaroid-card {
+            background: #ffffff;
+            padding: 8px 8px 22px 8px;
+            border-radius: 6px;
+            box-shadow: 0 6px 16px rgba(30, 58, 138, 0.15);
+            border: 1px solid #dbeafe;
+            text-align: center;
+        }
+
+        .polaroid-card:nth-child(odd) {
+            rotate: -2.5deg;
+        }
+
+        .polaroid-card:nth-child(even) {
+            rotate: 2.5deg;
+        }
+
+        .polaroid-card img {
+            width: 100%;
+            height: 125px;
+            object-fit: cover;
+            border-radius: 4px;
+            background-color: #e0f2fe;
+        }
+
+        .polaroid-caption {
+            margin-top: 6px;
+            font-size: 0.95rem;
+            color: #1e3a8a;
+        }
+
+        .btn-restart {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1.5px solid #93c5fd;
+            color: #1e3a8a;
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-bottom: 10px;
+            z-index: 25;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-wrapper">
+        <!-- Vùng chứa hiệu ứng trái tim & ngôi sao xanh bay lên -->
+        <div class="floating-particles" id="particlesContainer"></div>
+
+        <!-- TRANG 1: CHÚC MỪNG & BẤM VÀO BÓ HOA -->
+        <section class="page active" id="page-1">
+            <h1 class="title-cursive reveal-text delay-1">Chúc mừng<br>ngày Nhà giáo<br>Việt Nam</h1>
+            <div class="date-divider reveal-text delay-2">20.11</div>
+            <p class="wish-1 reveal-text delay-3">
+                Hy vọng mọi điều tốt đẹp sẽ đến với cô. Chúc cô sức khỏe và hạnh phúc! ♡
+            </p>
+
+            <div class="bouquet-hotspot reveal-text delay-4" onclick="goToPage(2)" title="Nhấn vào bó hoa">
+                <span class="bouquet-hint">Chạm vào bó hoa 💐</span>
+            </div>
+        </section>
+
+        <!-- TRANG 2: LỜI CẢM ƠN & NÚT MỞ THƯ -->
+        <section class="page" id="page-2">
+            <div>
+                <h2 class="title-slide-2 reveal-text delay-1">Lời cảm ơn<br>từ trái tim ♡</h2>
+                <p class="subtitle-slide-2 reveal-text delay-2">
+                    gửi đến cô vì sự kiên nhẫn,<br>
+                    sự tận tâm cống hiến,<br>
+                    và những bài học tốt đẹp của cô ♡
+                </p>
+            </div>
+
+            <button class="btn-action reveal-text delay-3" onclick="goToPage(3)">
+                Mở lá thư nhỏ →
+            </button>
+        </section>
+
+        <!-- TRANG 3: LÁ THƯ NHỎ -->
+        <section class="page" id="page-3">
+            <div class="note-paper-area">
+                <p class="reveal-text delay-1"><strong>Cô kính mến,</strong></p>
+                <br>
+                <p class="reveal-text delay-2">
+                    Nhân ngày 20/11, em xin gửi đến cô lời tri ân sâu sắc nhất. Cảm ơn cô đã luôn dịu dàng, bao dung và truyền lửa đam mê cho chúng em qua từng bài giảng.
+                </p>
+                <br>
+                <p class="reveal-text delay-3">
+                    Chúc cô luôn giữ mãi nụ cười rạng rỡ trên môi và thật nhiều sức khỏe ạ! ♡
+                </p>
+            </div>
+
+            <button class="btn-next-gallery reveal-text delay-4" onclick="goToPage(4)">
+                Xem kỷ niệm 📸 →
+            </button>
+        </section>
+
+        <!-- TRANG 4: HÌNH ẢNH KỶ NIỆM -->
+        <section class="page" id="page-4">
+            <div class="gallery-grid">
+                <div class="polaroid-card reveal-text delay-1">
+                    <img src="anh1.jpg" alt="Kỷ niệm 1">
+                    <div class="polaroid-caption">Khoảnh khắc đáng nhớ ♡</div>
+                </div>
+                <div class="polaroid-card reveal-text delay-2">
+                    <img src="anh2.jpg" alt="Kỷ niệm 2">
+                    <div class="polaroid-caption">Tập thể lớp chúng em</div>
+                </div>
+                <div class="polaroid-card reveal-text delay-3">
+                    <img src="anh3.jpg" alt="Kỷ niệm 3">
+                    <div class="polaroid-caption">Những giờ học vui vẻ</div>
+                </div>
+                <div class="polaroid-card reveal-text delay-4">
+                    <img src="anh4.jpg" alt="Kỷ niệm 4">
+                    <div class="polaroid-caption">Mãi yêu quý cô!</div>
+                </div>
+            </div>
+
+            <button class="btn-restart reveal-text delay-5" onclick="goToPage(1)">
+                ↺ Xem lại từ đầu
+            </button>
+        </section>
+
+    </div>
+
+    <script>
+        // 1. Chuyển trang và kích hoạt lại hiệu ứng chữ hiện lên từ từ
+        function goToPage(pageNumber) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            const targetPage = document.getElementById('page-' + pageNumber);
+            if (targetPage) {
+                // Force reflow để animation chạy lại mượt mà mỗi lần mở trang
+                void targetPage.offsetWidth;
+                targetPage.classList.add('active');
+            }
+        }
+
+        // 2. Tạo hiệu ứng trái tim và ngôi sao màu xanh bay bay
+        const particlesContainer = document.getElementById('particlesContainer');
+        const symbols = ['♡', '✦', '✧', '💙', '☆'];
+        const blueShades = ['#3b82f6', '#60a5fa', '#93c5fd', '#2563eb', '#7dd3fc'];
+
+        function createParticle() {
+            const particle = document.createElement('span');
+            particle.classList.add('particle');
+            
+            // Chọn ngẫu nhiên biểu tượng trái tim hoặc ngôi sao
+            particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            // Chọn ngẫu nhiên sắc độ xanh dương pastel
+            particle.style.color = blueShades[Math.floor(Math.random() * blueShades.length)];
+            
+            // Vị trí ngang ngẫu nhiên (5% đến 95%)
+            particle.style.left = (Math.random() * 90 + 5) + '%';
+            
+            // Kích thước ngẫu nhiên (12px đến 22px)
+            particle.style.fontSize = (Math.random() * 10 + 12) + 'px';
+            
+            // Thời gian bay ngẫu nhiên (5s đến 9s)
+            const duration = Math.random() * 4 + 5;
+            particle.style.animationDuration = duration + 's';
+
+            particlesContainer.appendChild(particle);
+
+            // Xóa phần tử sau khi bay xong để tránh nặng trang
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+
+        // Tạo liên tục mỗi 450ms
+        setInterval(createParticle, 450);
+
+        // Tạo sẵn vài hạt ngay lúc mới mở web
+        for (let i = 0; i < 6; i++) {
+            setTimeout(createParticle, i * 250);
+        }
+    </script>
+</body>
+</html>
