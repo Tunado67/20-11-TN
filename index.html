@@ -38,6 +38,46 @@
             overflow: hidden;
         }
 
+        /* Nút toggle nhạc nhỏ gọn ở góc trên bên phải */
+        .music-toggle-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1.5px solid #93c5fd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 3px 10px rgba(30, 58, 138, 0.15);
+            transition: all 0.25s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .music-toggle-btn:hover {
+            transform: scale(1.08);
+            background: #ffffff;
+        }
+
+        .music-toggle-btn span {
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        /* Hiệu ứng xoay nốt nhạc khi đang phát */
+        .music-toggle-btn.playing span {
+            animation: spinNote 3s linear infinite;
+        }
+
+        @keyframes spinNote {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Lớp chứa hiệu ứng trái tim & ngôi sao bay lơ lửng */
         .floating-particles {
             position: absolute;
@@ -295,80 +335,87 @@
             z-index: 25;
         }
 
-/* =========================================
-   TRANG 4: HÌNH ẢNH KỶ NIỆM (BỐ CỤC 5 ẢNH)
-   ========================================= */
-#page-4 {
-    background-image: url('bg4.png');
-    padding-top: 20%; /* Thu gọn khoảng trống trên một chút để đủ chỗ cho 3 hàng ảnh */
-    padding-bottom: 18px;
-    align-items: center;
-    justify-content: space-between;
-}
+        /* =========================================
+           TRANG 4: HÌNH ẢNH KỶ NIỆM (BỐ CỤC 5 ẢNH)
+           ========================================= */
+        #page-4 {
+            background-image: url('bg4.png');
+            padding-top: 20%; 
+            padding-bottom: 18px;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px 12px;
-    width: 100%;
-    z-index: 25;
-}
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px 12px;
+            width: 100%;
+            z-index: 25;
+        }
 
-.polaroid-card {
-    background: #ffffff;
-    padding: 6px 6px 14px 6px;
-    border-radius: 6px;
-    box-shadow: 0 6px 16px rgba(30, 58, 138, 0.15);
-    border: 1px solid #dbeafe;
-    text-align: center;
-}
+        .polaroid-card {
+            background: #ffffff;
+            padding: 6px 6px 14px 6px;
+            border-radius: 6px;
+            box-shadow: 0 6px 16px rgba(30, 58, 138, 0.15);
+            border: 1px solid #dbeafe;
+            text-align: center;
+        }
 
-.polaroid-card:nth-child(odd) {
-    rotate: -2deg;
-}
+        .polaroid-card:nth-child(odd) {
+            rotate: -2deg;
+        }
 
-.polaroid-card:nth-child(even) {
-    rotate: 2deg;
-}
+        .polaroid-card:nth-child(even) {
+            rotate: 2deg;
+        }
 
-/* Căn tấm ảnh thứ 5 ra chính giữa hàng cuối */
-.polaroid-card:nth-child(5) {
-    grid-column: 1 / -1;
-    width: 52%;
-    justify-self: center;
-    rotate: -1deg;
-}
+        .polaroid-card:nth-child(5) {
+            grid-column: 1 / -1;
+            width: 52%;
+            justify-self: center;
+            rotate: -1deg;
+        }
 
-.polaroid-card img {
-    width: 100%;
-    height: 98px; /* Giảm nhẹ chiều cao ảnh để 3 hàng không đè lên nút bấm */
-    object-fit: cover;
-    border-radius: 4px;
-    background-color: #e0f2fe;
-}
+        .polaroid-card img {
+            width: 100%;
+            height: 98px;
+            object-fit: cover;
+            border-radius: 4px;
+            background-color: #e0f2fe;
+        }
 
-.polaroid-caption {
-    margin-top: 4px;
-    font-size: 0.9rem;
-    color: #1e3a8a;
-}
+        .polaroid-caption {
+            margin-top: 4px;
+            font-size: 0.9rem;
+            color: #1e3a8a;
+        }
 
-.btn-restart {
-    background: rgba(255, 255, 255, 0.92);
-    border: 1.5px solid #93c5fd;
-    color: #1e3a8a;
-    padding: 7px 22px;
-    border-radius: 30px;
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1.05rem;
-    cursor: pointer;
-    z-index: 25;
-}
+        .btn-restart {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1.5px solid #93c5fd;
+            color: #1e3a8a;
+            padding: 7px 22px;
+            border-radius: 30px;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.05rem;
+            cursor: pointer;
+            z-index: 25;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Thẻ Audio phát nhạc nền, tự động phát và lặp lại liên tục -->
+    <audio id="bgMusic" src="music.opus" preload="auto" loop></audio>
+
     <div class="card-wrapper">
+        <!-- Nút toggle Bật/Tắt nhạc nhỏ gọn ở góc phải -->
+        <div class="music-toggle-btn" id="musicToggleBtn" onclick="toggleMusic()" title="Bật/Tắt nhạc nền">
+            <span id="musicIcon">🎵</span>
+        </div>
+
         <!-- Vùng chứa hiệu ứng trái tim & ngôi sao xanh bay lên -->
         <div class="floating-particles" id="particlesContainer"></div>
 
@@ -423,34 +470,34 @@ Em mong cô sẽ luôn mạnh khỏe, hạnh phúc, giữ mãi nhiệt huyết v
         </section>
 
         <!-- TRANG 4: HÌNH ẢNH KỶ NIỆM -->
-<section class="page" id="page-4">
-    <div class="gallery-grid">
-        <div class="polaroid-card reveal-text delay-1">
-            <img src="1.jpg" alt="Kỷ niệm 1">
-            <div class="polaroid-caption">Khoảnh khắc đáng nhớ ♡</div>
-        </div>
-        <div class="polaroid-card reveal-text delay-2">
-            <img src="2.jpg" alt="Kỷ niệm 2">
-            <div class="polaroid-caption">Ngày Nhà giáo Việt Nam 2024</div>
-        </div>
-        <div class="polaroid-card reveal-text delay-3">
-            <img src="3.jpg" alt="Kỷ niệm 3">
-            <div class="polaroid-caption">Khép lại một năm học</div>
-        </div>
-        <div class="polaroid-card reveal-text delay-4">
-            <img src="4.jpg" alt="Kỷ niệm 4">
-            <div class="polaroid-caption">Thanh xuân dưới mái trường</div>
-        </div>
-        <div class="polaroid-card reveal-text delay-5">
-            <img src="5.jpg" alt="Kỷ niệm 5">
-            <div class="polaroid-caption">Mãi yêu quý cô! ♡</div>
-        </div>
-    </div>
+        <section class="page" id="page-4">
+            <div class="gallery-grid">
+                <div class="polaroid-card reveal-text delay-1">
+                    <img src="1.jpg" alt="Kỷ niệm 1">
+                    <div class="polaroid-caption">Khoảnh khắc đáng nhớ ♡</div>
+                </div>
+                <div class="polaroid-card reveal-text delay-2">
+                    <img src="2.jpg" alt="Kỷ niệm 2">
+                    <div class="polaroid-caption">Ngày Nhà giáo Việt Nam 2024</div>
+                </div>
+                <div class="polaroid-card reveal-text delay-3">
+                    <img src="3.jpg" alt="Kỷ niệm 3">
+                    <div class="polaroid-caption">Khép lại một năm học</div>
+                </div>
+                <div class="polaroid-card reveal-text delay-4">
+                    <img src="4.jpg" alt="Kỷ niệm 4">
+                    <div class="polaroid-caption">Thanh xuân dưới mái trường</div>
+                </div>
+                <div class="polaroid-card reveal-text delay-5">
+                    <img src="5.jpg" alt="Kỷ niệm 5">
+                    <div class="polaroid-caption">Mãi yêu quý cô! ♡</div>
+                </div>
+            </div>
 
-    <button class="btn-restart reveal-text delay-5" onclick="goToPage(1)">
-        ↺ Xem lại từ đầu
-    </button>
-</section>
+            <button class="btn-restart reveal-text delay-5" onclick="goToPage(1)">
+                ↺ Xem lại từ đầu
+            </button>
+        </section>
 
     </div>
 
@@ -464,13 +511,70 @@ Em mong cô sẽ luôn mạnh khỏe, hạnh phúc, giữ mãi nhiệt huyết v
 
             const targetPage = document.getElementById('page-' + pageNumber);
             if (targetPage) {
-                // Force reflow để animation chạy lại mượt mà mỗi lần mở trang
                 void targetPage.offsetWidth;
                 targetPage.classList.add('active');
             }
         }
 
-        // 2. Tạo hiệu ứng trái tim và ngôi sao màu xanh bay bay
+        // 2. Xử lý âm thanh nhạc nền & nút Toggle
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggleBtn = document.getElementById('musicToggleBtn');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicToggleBtn.classList.remove('playing');
+                musicIcon.innerText = '🔇';
+                isPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicToggleBtn.classList.add('playing');
+                    musicIcon.innerText = '🎵';
+                    isPlaying = true;
+                }).catch(e => {
+                    console.log("Trình duyệt chặn phát âm thanh tự động:", e);
+                });
+            }
+        }
+
+        // Tự động kích hoạt phát nhạc khi người dùng tương tác lần đầu tiên (chạm màn hình/click)
+        // để lách luật chính sách Autoplay Policy khắt khe của các trình duyệt di động/desktop.
+        function unlockAudio() {
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    musicToggleBtn.classList.add('playing');
+                    musicIcon.innerText = '🎵';
+                    isPlaying = true;
+                    // Gỡ bỏ sự kiện sau khi đã mở khóa thành công
+                    document.removeEventListener('click', unlockAudio);
+                    document.removeEventListener('touchstart', unlockAudio);
+                }).catch(e => {
+                    console.log("Đang chờ tương tác tiếp theo để phát nhạc");
+                });
+            }
+        }
+
+        document.addEventListener('click', unlockAudio);
+        document.addEventListener('touchstart', unlockAudio);
+
+        // Thử phát nhạc ngay khi load trang
+        window.addEventListener('load', () => {
+            bgMusic.play().then(() => {
+                musicToggleBtn.classList.add('playing');
+                musicIcon.innerText = '🎵';
+                isPlaying = true;
+                // Nếu trình duyệt cho phép autoplay luôn thì gỡ sự kiện unlock
+                document.removeEventListener('click', unlockAudio);
+                document.removeEventListener('touchstart', unlockAudio);
+            }).catch(e => {
+                // Nếu bị chặn, icon sẽ hiển thị 🔇 và chờ người dùng chạm vào màn hình hoặc bấm nút
+                musicIcon.innerText = '🔇';
+            });
+        });
+
+        // 3. Tạo hiệu ứng trái tim và ngôi sao màu xanh bay bay
         const particlesContainer = document.getElementById('particlesContainer');
         const symbols = ['♡', '✦', '✧', '💙', '☆'];
         const blueShades = ['#3b82f6', '#60a5fa', '#93c5fd', '#2563eb', '#7dd3fc'];
@@ -479,37 +583,14 @@ Em mong cô sẽ luôn mạnh khỏe, hạnh phúc, giữ mãi nhiệt huyết v
             const particle = document.createElement('span');
             particle.classList.add('particle');
             
-            // Chọn ngẫu nhiên biểu tượng trái tim hoặc ngôi sao
             particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-            
-            // Chọn ngẫu nhiên sắc độ xanh dương pastel
             particle.style.color = blueShades[Math.floor(Math.random() * blueShades.length)];
-            
-            // Vị trí ngang ngẫu nhiên (5% đến 95%)
             particle.style.left = (Math.random() * 90 + 5) + '%';
-            
-            // Kích thước ngẫu nhiên (12px đến 22px)
             particle.style.fontSize = (Math.random() * 10 + 12) + 'px';
             
-            // Thời gian bay ngẫu nhiên (5s đến 9s)
             const duration = Math.random() * 4 + 5;
             particle.style.animationDuration = duration + 's';
 
             particlesContainer.appendChild(particle);
 
-            // Xóa phần tử sau khi bay xong để tránh nặng trang
-            setTimeout(() => {
-                particle.remove();
-            }, duration * 1000);
-        }
-
-        // Tạo liên tục mỗi 450ms
-        setInterval(createParticle, 450);
-
-        // Tạo sẵn vài hạt ngay lúc mới mở web
-        for (let i = 0; i < 6; i++) {
-            setTimeout(createParticle, i * 250);
-        }
-    </script>
-</body>
-</html>
+        
