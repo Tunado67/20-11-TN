@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Chúc Mừng Ngày Nhà Giáo Việt Nam 20/11</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,29 +20,56 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
             font-family: 'Patrick Hand', cursive;
             color: #1e3a8a;
-            overflow: hidden;
+            position: fixed; /* Chống cuộn tràn trang trên mobile */
         }
 
-        /* Khung hiển thị chuẩn tỷ lệ dọc 9:16 */
+        /* Khung thiệp co giãn thông minh theo tỷ lệ màn hình điện thoại */
         .card-wrapper {
-            width: 100%;
-            max-width: 420px;
-            height: 100vh;
-            max-height: 850px;
             position: relative;
-            box-shadow: 0 20px 50px rgba(30, 58, 138, 0.25);
+            width: 100vw;
+            height: 100vh;
+            max-width: 450px; /* Giới hạn tối đa cho máy tính bảng/PC */
+            max-height: 900px;
             background: #eff6ff;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.2);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Sử dụng Flexbox để tự động co giãn nội dung bên trong theo kích thước thực tế */
+        .page {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 5vh 6vw; /* Dùng đơn vị vh/vw để tự scale theo màn hình */
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease, visibility 0.6s;
+        }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
         }
 
         /* Nút toggle nhạc nhỏ gọn ở góc trên bên phải */
         .music-toggle-btn {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 2vh;
+            right: 4vw;
             width: 36px;
             height: 36px;
             background: rgba(255, 255, 255, 0.85);
@@ -68,7 +95,6 @@
             line-height: 1;
         }
 
-        /* Hiệu ứng xoay nốt nhạc khi đang phát */
         .music-toggle-btn.playing span {
             animation: spinNote 3s linear infinite;
         }
@@ -121,9 +147,9 @@
            ========================================= */
         .reveal-text {
             opacity: 0;
-            transform: translateY(22px);
-            transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1), 
-                        transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(20px);
+            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), 
+                        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .page.active .reveal-text {
@@ -131,35 +157,11 @@
             transform: translateY(0);
         }
 
-        /* Độ trễ nối tiếp nhau cho từng dòng chữ */
         .delay-1 { transition-delay: 0.2s; }
-        .delay-2 { transition-delay: 0.55s; }
-        .delay-3 { transition-delay: 0.9s; }
-        .delay-4 { transition-delay: 1.25s; }
-        .delay-5 { transition-delay: 1.6s; }
-
-        /* Hiệu ứng chuyển trang mượt mà */
-        .page {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            padding: 35px 28px;
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.7s ease, visibility 0.7s;
-        }
-
-        .page.active {
-            opacity: 1;
-            visibility: visible;
-            z-index: 10;
-        }
+        .delay-2 { transition-delay: 0.5s; }
+        .delay-3 { transition-delay: 0.8s; }
+        .delay-4 { transition-delay: 1.1s; }
+        .delay-5 { transition-delay: 1.4s; }
 
         /* =========================================
            TRANG 1: CHÚC MỪNG + BẤM VÀO BÓ HOA
@@ -168,16 +170,16 @@
             background-image: url('bg1.png');
             align-items: center;
             text-align: center;
-            padding-top: 12%;
+            padding-top: 12vh;
         }
 
         .title-cursive {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.8rem;
+            font-size: clamp(2.2rem, 7vw, 2.8rem);
             line-height: 1.15;
             color: #172554;
             rotate: -3deg;
-            margin-bottom: 10px;
+            margin-bottom: 1vh;
         }
 
         .date-divider {
@@ -185,16 +187,16 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            font-size: 1.8rem;
+            font-size: clamp(1.5rem, 5vw, 1.8rem);
             font-weight: bold;
-            margin: 8px 0 25px 0;
+            margin: 1vh 0 3vh 0;
             rotate: -2deg;
         }
 
         .date-divider::before,
         .date-divider::after {
             content: "";
-            width: 45px;
+            width: 40px;
             height: 2px;
             background-color: #1e3a8a;
         }
@@ -202,10 +204,10 @@
         .wish-1 {
             align-self: flex-start;
             text-align: left;
-            font-size: 1.35rem;
+            font-size: clamp(1.15rem, 4vw, 1.35rem);
             line-height: 1.5;
-            max-width: 78%;
-            margin-left: 10px;
+            max-width: 80%;
+            margin-left: 2vw;
             color: #1e293b;
         }
 
@@ -229,7 +231,7 @@
             color: #1e3a8a;
             padding: 6px 14px;
             border-radius: 20px;
-            font-size: 1.05rem;
+            font-size: 1rem;
             border: 1.5px solid #93c5fd;
             box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
             animation: floatHint 1.8s infinite ease-in-out;
@@ -248,24 +250,25 @@
             background-image: url('bg2.png');
             align-items: center;
             text-align: center;
-            padding-top: 11%;
+            padding-top: 11vh;
             justify-content: space-between;
+            padding-bottom: 5vh;
         }
 
         .title-slide-2 {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.7rem;
+            font-size: clamp(2.2rem, 7vw, 2.7rem);
             line-height: 1.15;
             color: #1e3a8a;
             rotate: -4deg;
-            margin-bottom: 18px;
+            margin-bottom: 2vh;
         }
 
         .subtitle-slide-2 {
-            font-size: 1.25rem;
+            font-size: clamp(1.1rem, 3.8vw, 1.25rem);
             line-height: 1.45;
             color: #1e293b;
-            max-width: 85%;
+            max-width: 90%;
             margin: 0 auto;
         }
 
@@ -273,13 +276,12 @@
             background-color: #ffffff;
             color: #1e3a8a;
             border: 2px solid #93c5fd;
-            padding: 12px 30px;
+            padding: 1.2vh 6vw;
             border-radius: 50px;
             font-family: 'Patrick Hand', cursive;
-            font-size: 1.35rem;
+            font-size: clamp(1.2rem, 4vw, 1.35rem);
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(147, 197, 253, 0.6);
-            margin-bottom: 12px;
             z-index: 25;
         }
 
@@ -301,12 +303,12 @@
             top: 10.5%;
             left: 11%;
             width: 78%;
-            height: 46%;
-            padding: 18px 16px;
+            height: 48%;
+            padding: 15px 15px;
             rotate: -3.5deg;
             overflow-y: auto;
-            font-size: 1.18rem;
-            line-height: 1.5;
+            font-size: clamp(1.05rem, 3.5vw, 1.18rem);
+            line-height: 1.45;
             color: #1e293b;
             z-index: 25;
         }
@@ -321,15 +323,15 @@
 
         .btn-next-gallery {
             position: absolute;
-            bottom: 22px;
-            right: 22px;
+            bottom: 3vh;
+            right: 6vw;
             background: rgba(255, 255, 255, 0.92);
             border: 2px solid #93c5fd;
             color: #1e3a8a;
-            padding: 8px 20px;
+            padding: 8px 18px;
             border-radius: 30px;
             font-family: 'Patrick Hand', cursive;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
             z-index: 25;
@@ -340,8 +342,8 @@
            ========================================= */
         #page-4 {
             background-image: url('bg4.png');
-            padding-top: 20%; 
-            padding-bottom: 18px;
+            padding-top: 18vh; 
+            padding-bottom: 3vh;
             align-items: center;
             justify-content: space-between;
         }
@@ -349,16 +351,16 @@
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px 12px;
+            gap: 8px 10px;
             width: 100%;
             z-index: 25;
         }
 
         .polaroid-card {
             background: #ffffff;
-            padding: 6px 6px 14px 6px;
+            padding: 5px 5px 12px 5px;
             border-radius: 6px;
-            box-shadow: 0 6px 16px rgba(30, 58, 138, 0.15);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
             border: 1px solid #dbeafe;
             text-align: center;
         }
@@ -373,22 +375,22 @@
 
         .polaroid-card:nth-child(5) {
             grid-column: 1 / -1;
-            width: 52%;
+            width: 50%;
             justify-self: center;
             rotate: -1deg;
         }
 
         .polaroid-card img {
             width: 100%;
-            height: 98px;
+            height: 85px; /* Tối ưu chiều cao để vừa vặn trên các máy màn hình ngắn */
             object-fit: cover;
             border-radius: 4px;
             background-color: #e0f2fe;
         }
 
         .polaroid-caption {
-            margin-top: 4px;
-            font-size: 0.9rem;
+            margin-top: 3px;
+            font-size: 0.85rem;
             color: #1e3a8a;
         }
 
@@ -396,10 +398,10 @@
             background: rgba(255, 255, 255, 0.92);
             border: 1.5px solid #93c5fd;
             color: #1e3a8a;
-            padding: 7px 22px;
+            padding: 6px 20px;
             border-radius: 30px;
             font-family: 'Patrick Hand', cursive;
-            font-size: 1.05rem;
+            font-size: 1rem;
             cursor: pointer;
             z-index: 25;
         }
@@ -407,7 +409,7 @@
 </head>
 <body>
 
-    <!-- Thẻ Audio phát nhạc nền, tự động phát và lặp lại liên tục -->
+    <!-- Thẻ Audio phát nhạc nền, tự động phát và lặp lại liên tục[span_1](start_span)[span_1](end_span) -->
     <audio id="bgMusic" src="music.opus" preload="auto" loop></audio>
 
     <div class="card-wrapper">
@@ -539,15 +541,12 @@ Em mong cô sẽ luôn mạnh khỏe, hạnh phúc, giữ mãi nhiệt huyết v
             }
         }
 
-        // Tự động kích hoạt phát nhạc khi người dùng tương tác lần đầu tiên (chạm màn hình/click)
-        // để lách luật chính sách Autoplay Policy khắt khe của các trình duyệt di động/desktop.
         function unlockAudio() {
             if (!isPlaying) {
                 bgMusic.play().then(() => {
                     musicToggleBtn.classList.add('playing');
                     musicIcon.innerText = '🎵';
                     isPlaying = true;
-                    // Gỡ bỏ sự kiện sau khi đã mở khóa thành công
                     document.removeEventListener('click', unlockAudio);
                     document.removeEventListener('touchstart', unlockAudio);
                 }).catch(e => {
@@ -559,17 +558,14 @@ Em mong cô sẽ luôn mạnh khỏe, hạnh phúc, giữ mãi nhiệt huyết v
         document.addEventListener('click', unlockAudio);
         document.addEventListener('touchstart', unlockAudio);
 
-        // Thử phát nhạc ngay khi load trang
         window.addEventListener('load', () => {
             bgMusic.play().then(() => {
                 musicToggleBtn.classList.add('playing');
                 musicIcon.innerText = '🎵';
                 isPlaying = true;
-                // Nếu trình duyệt cho phép autoplay luôn thì gỡ sự kiện unlock
                 document.removeEventListener('click', unlockAudio);
                 document.removeEventListener('touchstart', unlockAudio);
             }).catch(e => {
-                // Nếu bị chặn, icon sẽ hiển thị 🔇 và chờ người dùng chạm vào màn hình hoặc bấm nút
                 musicIcon.innerText = '🔇';
             });
         });
@@ -593,4 +589,16 @@ Em mong cô sẽ luôn mạnh khỏe, hạnh phúc, giữ mãi nhiệt huyết v
 
             particlesContainer.appendChild(particle);
 
-        
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createParticle, 450);
+
+        for (let i = 0; i < 6; i++) {
+            setTimeout(createParticle, i * 250);
+        }
+    </script>
+</body>
+</html>
